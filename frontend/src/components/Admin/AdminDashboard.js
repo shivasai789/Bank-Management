@@ -15,7 +15,7 @@ const AdminDashboard = () => {
 
     try {
       const res = await axios.get(
-        "http://localhost:5000/api/admin/all",
+        "https://bank-management-tfeo.onrender.com/api/admin/all",
         config
       );
       setAccounts(res.data);
@@ -35,7 +35,7 @@ const AdminDashboard = () => {
 
     try {
       const res = await axios.get(
-        `http://localhost:5000/api/admin/search?query=${query}`,
+        `https://bank-management-tfeo.onrender.com/api/admin/search?query=${query}`,
         config
       );
       setAccounts(res.data);

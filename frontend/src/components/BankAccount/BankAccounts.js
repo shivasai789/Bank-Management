@@ -23,7 +23,7 @@ const BankAccounts = () => {
   // Fetch Bank Accounts
   const fetchBankAccounts = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/banks", config);
+      const res = await axios.get("https://bank-management-tfeo.onrender.com/api/banks", config);
       setBankAccounts(res.data);
     } catch (error) {
       console.error(error);
@@ -45,7 +45,7 @@ const BankAccounts = () => {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/banks",
+        "https://bank-management-tfeo.onrender.com/api/banks",
         newAccount,
         config
       );
@@ -80,7 +80,7 @@ const BankAccounts = () => {
     e.preventDefault();
     try {
       const res = await axios.put(
-        `http://localhost:5000/api/banks/${editingAccount._id}`,
+        `https://bank-management-tfeo.onrender.com/api/banks/${editingAccount._id}`,
         newAccount,
         config
       );
@@ -105,7 +105,7 @@ const BankAccounts = () => {
   const handleDeleteBankAccount = async (accountId) => {
     try {
       await axios.delete(
-        `http://localhost:5000/api/banks/${accountId}`,
+        `https://bank-management-tfeo.onrender.com/api/banks/${accountId}`,
         config
       );
       setBankAccounts(
