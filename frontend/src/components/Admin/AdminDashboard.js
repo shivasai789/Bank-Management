@@ -56,7 +56,7 @@ const AdminDashboard = () => {
 
   return (
     <div className="container mt-5">
-      <h2>Admin Dashboard</h2>
+      <h2 className="mb-5">Admin Dashboard</h2>
       <form onSubmit={handleSearch} className="mb-4">
         <div className="form-group">
           <input

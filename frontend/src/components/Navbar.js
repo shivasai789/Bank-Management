@@ -49,7 +49,7 @@ const Navbar = () => {
                   My Bank Accounts
                 </Link>
               </li>
-              <li className="nav-item">
+              <li className="nav-item mr-3">
                 <Link className="nav-link" to="/admin">
                   Admin
                 </Link>

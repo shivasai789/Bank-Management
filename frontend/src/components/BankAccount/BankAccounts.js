@@ -13,6 +13,7 @@ const BankAccounts = () => {
   });
   const [editingAccount, setEditingAccount] = useState(null);
   const [isLoading,setIsLoading] = useState(false)
+  const [showForm,setShowForm] = useState(false)
 
   const token = localStorage.getItem("token");
   const config = {
@@ -70,12 +71,14 @@ const BankAccounts = () => {
     }
     finally{
       setIsLoading(false)
+      setShowForm(false)
     }
     fetchBankAccounts();
   };
 
   // Edit Bank Account
   const handleEditBankAccount = (account) => {
+    setShowForm(true)
     setEditingAccount(account);
     setNewAccount({
       bankName: account.bankName,
@@ -112,6 +115,7 @@ const BankAccounts = () => {
     }
     finally{
       setIsLoading(false)
+      setShowForm(false)
     }
   };
 
@@ -132,12 +136,21 @@ const BankAccounts = () => {
       setIsLoading(false)
     }
   };
+
+  const onToggleForm = () => {
+    setShowForm((prevState)=> !prevState)
+  }
+
   return (
     <div className="container mt-5">
-      <h2>My Bank Accounts</h2>
+      <h2>My Bank Accounts ({bankAccounts.length})</h2>
+      <div className="text-right">
+      <button type="button" className="btn btn-primary mb-3" onClick={onToggleForm}>{showForm? "Cancel" : "Add Account"}</button>
+      </div>
 
       {/* Add/Edit Form */}
-      <div className="card shadow-sm mb-4">
+      {showForm? (
+        <div className="card shadow-sm mb-4">
         <div className="card-body">
           <form
             onSubmit={
@@ -205,6 +218,7 @@ const BankAccounts = () => {
           </form>
         </div>
       </div>
+      ) : ''}
 
       {/* List of Bank Accounts */}
       <div className="row">
