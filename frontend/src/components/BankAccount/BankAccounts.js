@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Loading from './../Loading';
 
 const BankAccounts = () => {
   const [bankAccounts, setBankAccounts] = useState([]);
@@ -11,6 +12,7 @@ const BankAccounts = () => {
     branchName: "",
   });
   const [editingAccount, setEditingAccount] = useState(null);
+  const [isLoading,setIsLoading] = useState(false)
 
   const token = localStorage.getItem("token");
   const config = {
@@ -22,11 +24,15 @@ const BankAccounts = () => {
 
   // Fetch Bank Accounts
   const fetchBankAccounts = async () => {
+    setIsLoading(true)
     try {
       const res = await axios.get("https://bank-management-tfeo.onrender.com/api/banks", config);
       setBankAccounts(res.data);
     } catch (error) {
       console.error(error);
+    }
+    finally{
+      setIsLoading(false)
     }
   };
 
@@ -43,6 +49,7 @@ const BankAccounts = () => {
   // Add Bank Account
   const handleAddBankAccount = async (e) => {
     e.preventDefault();
+    setIsLoading(true)
     try {
       const res = await axios.post(
         "https://bank-management-tfeo.onrender.com/api/banks",
@@ -61,6 +68,9 @@ const BankAccounts = () => {
     } catch (error) {
       console.error(error);
     }
+    finally{
+      setIsLoading(false)
+    }
     fetchBankAccounts();
   };
 
@@ -78,6 +88,7 @@ const BankAccounts = () => {
 
   const handleUpdateBankAccount = async (e) => {
     e.preventDefault();
+    setIsLoading(true)
     try {
       const res = await axios.put(
         `https://bank-management-tfeo.onrender.com/api/banks/${editingAccount._id}`,
@@ -99,10 +110,14 @@ const BankAccounts = () => {
     } catch (error) {
       console.error(error);
     }
+    finally{
+      setIsLoading(false)
+    }
   };
 
   // Delete Bank Account
   const handleDeleteBankAccount = async (accountId) => {
+    setIsLoading(true)
     try {
       await axios.delete(
         `https://bank-management-tfeo.onrender.com/api/banks/${accountId}`,
@@ -113,9 +128,10 @@ const BankAccounts = () => {
       );
     } catch (error) {
       console.error(error);
+    } finally{
+      setIsLoading(false)
     }
   };
-
   return (
     <div className="container mt-5">
       <h2>My Bank Accounts</h2>
@@ -223,6 +239,8 @@ const BankAccounts = () => {
           </div>
         ))}
       </div>
+
+      {isLoading && <Loading/>}
     </div>
   );
 };

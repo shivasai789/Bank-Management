@@ -1,16 +1,19 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Navigate, useNavigate } from "react-router-dom";
+import Loading from "../Loading";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
       const res = await axios.post(
         "https://bank-management-tfeo.onrender.com/api/auth/login",
@@ -36,10 +39,11 @@ const Login = () => {
       } else {
         setError("An error occurred. Please try again.");
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  // Redirect if already logged in
   if (localStorage.getItem("token") !== null) {
     return <Navigate to="/bank-accounts" />;
   }
@@ -74,14 +78,16 @@ const Login = () => {
                     required
                   />
                 </div>
-                <button type="submit" className="btn btn-primary btn-block">
-                  Login
+                <button type="submit" className="btn btn-primary btn-block" disabled={isLoading}>
+                  {isLoading ? "Loading..." : "Login"}
                 </button>
                 {/* Display error message */}
                 {error && (
                   <div className="alert alert-danger mt-4">{error}</div>
                 )}
               </form>
+              {/* Display loading component */}
+              {isLoading && <Loading />}
             </div>
           </div>
         </div>

@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Loading from "../Loading";
 
 const AdminDashboard = () => {
   const [accounts, setAccounts] = useState([]);
   const [query, setQuery] = useState("");
+  const [isLoading,setIsLoading] = useState(false)
 
   const fetchAllAccounts = async () => {
     const token = localStorage.getItem("token");
@@ -12,7 +14,7 @@ const AdminDashboard = () => {
         Authorization: token,
       },
     };
-
+    setIsLoading(true)
     try {
       const res = await axios.get(
         "https://bank-management-tfeo.onrender.com/api/admin/all",
@@ -21,6 +23,8 @@ const AdminDashboard = () => {
       setAccounts(res.data);
     } catch (error) {
       console.error(error);
+    } finally{
+      setIsLoading(false)
     }
   };
 
@@ -32,7 +36,7 @@ const AdminDashboard = () => {
         Authorization: token,
       },
     };
-
+    setIsLoading(true)
     try {
       const res = await axios.get(
         `https://bank-management-tfeo.onrender.com/api/admin/search?query=${query}`,
@@ -41,6 +45,8 @@ const AdminDashboard = () => {
       setAccounts(res.data);
     } catch (error) {
       console.error(error);
+    } finally{
+      setIsLoading(false)
     }
   };
 
@@ -85,6 +91,7 @@ const AdminDashboard = () => {
           </div>
         ))}
       </div>
+      {isLoading && <Loading/>}
     </div>
   );
 };

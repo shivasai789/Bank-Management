@@ -1,17 +1,20 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate, Navigate } from "react-router-dom";
+import Loading from "../Loading";
 
 const Register = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState(null);
+  const [isLoading,setIsLoading] = useState(false)
   const navigate = useNavigate();
 
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
+      setIsLoading(true)
       const res = await axios.post("https://bank-management-tfeo.onrender.com/api/auth/register", {
         username,
         email,
@@ -27,6 +30,9 @@ const Register = () => {
       } else {
         setMessage("An error occurred. Please try again.");
       }
+    }
+    finally{
+      setIsLoading(false)
     }
   };
 
@@ -80,6 +86,7 @@ const Register = () => {
                   Register
                 </button>
               </form>
+              {isLoading && <Loading/>}
             </div>
           </div>
         </div>
